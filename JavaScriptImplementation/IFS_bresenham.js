@@ -32,13 +32,6 @@ bresenhamGlobal.method = function(
     helpers.print("minmax::: " + minmax);
     var min = minmax.min;
     var max = minmax.max;
-    // var min = Math.min(eucRamp.map(function(v) {
-    //     return eucRamp[v];
-    // }));
-
-    // var max = Math.max(eucRamp.map(function(v) { 
-    //     return [v];
-    // }));
 
     helpers.print(min + " " + max + " min/max");
 
@@ -47,9 +40,7 @@ bresenhamGlobal.method = function(
         const existingSample = bufferObject.peek(1, i);
         const phaseInEuclid = (i - startSamp) / (endSamp - startSamp);
         const step = Math.floor(phaseInEuclid * eucRamp.length);
-        //helpers.print("raw step: " + eucRamp[step]);
-        const value = helpers.remap(eucRamp[step], min, max, startPhase, endPhase);//startPhase+(mutationMagnitude / eucRamp[step]);
-        helpers.print("scaleedStap: " + value);
+        const value = helpers.remap(eucRamp[step], min, max, startPhase, endPhase);
         bufferObject.poke(1, i, helpers.blend(existingSample, value, alpha));
     }
 
@@ -62,8 +53,8 @@ function eucBresenham(steps, hits, rotation) {
         var previous = 0;
         for(var i = 0; i < steps; i++) {
             var current = Math.floor(i * slope);
-            // you might do the following for triggers, 
-            // but we're making ramps here
+            
+            // you might do the following for triggers, but we're making ramps here
             // result[i] = current != previous ? 1 : 0;
             // previous = current
 

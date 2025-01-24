@@ -1,50 +1,35 @@
-var bufferManager = new Global("bufferManagerShared");
-var helpers = new Global("helpersShared");
-var adaptiveSlopeGlobal = new Global("adaptiveSlopeShared");
-var sawGlobal = new Global("sawShared");
-var exponentGlobal = new Global("exponentShared");
-var bjorklundGlobal = new Global("bjorklundShared");
-var toussaintGlobal = new Global("toussaintShared");
-var bresenhamGlobal = new Global("bresenhamShared");
-var phaseDensityGlobal = new Global("phaseDensityShared");
-var standardCircleMapGlobal = new Global("standardCircleMapShared");
-var superformulaGlobal = new Global("superformulaShared");
+var bufferManager               =   new Global("bufferManagerShared");
+var helpers                     =   new Global("helpersShared");
+var sawGlobal                   =   new Global("sawShared");
+var exponentGlobal              =   new Global("exponentShared");
+var bjorklundGlobal             =   new Global("bjorklundShared");
+var toussaintGlobal             =   new Global("toussaintShared");
+var bresenhamGlobal             =   new Global("bresenhamShared");
+var superformulaGlobal          =   new Global("superformulaShared");
+var standardCircleMapGlobal     =   new Global("standardCircleMapShared");
+var phaseDensityGlobal          =   new Global("phaseDensityShared");
+var adaptiveMonotonicityGlobal  =   new Global("adaptiveMonotonicityShared");
+var bruteMonotonicityGlobal     =   new Global("bruteMonotonicityShared");
 
 var methods = {
-    "saw": sawGlobal, 
-    "exp": exponentGlobal,
-    "pdc": phaseDensityGlobal,
-    "cir": standardCircleMapGlobal,
-    "bjo": bjorklundGlobal,
-    "tou": toussaintGlobal,
-    "bre": bresenhamGlobal,
-    "sup": superformulaGlobal,
-    "adaptiveSlope" : adaptiveSlopeGlobal,
+    "saw"                   : sawGlobal, 
+    "exp"                   : exponentGlobal,
+    "pdc"                   : phaseDensityGlobal,
+    "cir"                   : standardCircleMapGlobal,
+    "bjo"                   : bjorklundGlobal,
+    "tou"                   : toussaintGlobal,
+    "bre"                   : bresenhamGlobal,
+    "sup"                   : superformulaGlobal,
+    "adaptiveMonotonicity"  : adaptiveMonotonicityGlobal,
+    "bruteMonotonicity"     : bruteMonotonicityGlobal,
 };
 
-
 function setBuffer(name) {
-    //if (typeof name !== "string" || name.trim() === "") {
-    //    helpers.print("Invalid buffer name.");
-    //    return;
-    //}
-    //bufferName = name;
-    //helpers.print("Buffer set to: " + bufferName);
-
 	bufferManager.setBuffer(name);
-	
 }
 
 function setSampleRate(sr) {
-//    if (typeof sr !== "number" || sr <= 0) {
-//        helpers.print("Invalid sample rate: " + sr);
-//        return;
-//    }
-//    samplerate = sr;
-//    helpers.print("Sample rate set to: " + sr);
-
 	bufferManager.setSampleRate(sr);
-
 }
 
 function anything() {
@@ -60,16 +45,6 @@ function anything() {
     
     method = argsArray.shift();
     params = argsArray;
-    
-    // Get reference to buffer~ object
-//    var buffer = new Buffer(bufferName);
-//    if (!buffer) {
-//        helpers.print("Buffer not found: " + bufferName);
-//        return;
-//    } else {
-//        helpers.print("found buffer: " + bufferName);
-//    }
-
     
     helpers.print(methods);
 

@@ -47,7 +47,7 @@ standardCircleMapGlobal.method = function(
     // Begin the loop from startSamp + 1
     for (var i = startSamp + 1; i < endSamp; i++) {
 
-        // Apply the modified dynamical formula
+        // Apply the modified dynamical formula, feeding back into y
         y = (y + omega - (k / (2 * Math.PI)) * Math.sin(2 * Math.PI * y)) % 1;
 
         // Write the result to the buffer (modulus with totalSampleCount)

@@ -1,30 +1,7 @@
-var adaptiveSlopeGlobal = new Global("adaptiveSlopeShared");
+var adaptiveMonotonicityGlobal = new Global("adaptiveMonotonicityShared");
 var helpers = new Global("helpersShared");
-// var bufferManager = new Global("bufferManagerShared");
 
-// var bufferName = "";
-// var samplerate;
-
-// function setBuffer(name) {
-//     if (typeof name !== "string" || name.trim() === "") {
-//         helpers.print("Invalid buffer name.");
-//         return;
-//     }
-//     bufferName = name;
-//     helpers.print("Buffer set to: " + bufferName);
-// }
-
-// function setSampleRate(sr) {
-//     if (typeof sr !== "number" || sr <= 0) {
-//         helpers.print("Invalid sample rate: " + sr);
-//         return;
-//     }
-//     samplerate = sr;
-//     helpers.print("Sample rate set to: " + sr);
-// }
-
-
-adaptiveSlopeGlobal.method = function (bufferObject, samplerate) {
+adaptiveMonotonicityGlobal.method = function (bufferObject, samplerate) {
     var samples = [];
     var slopes = [];
 
@@ -66,22 +43,3 @@ adaptiveSlopeGlobal.method = function (bufferObject, samplerate) {
         bufferObject.poke(1, i, normalizedY);
     }
 };
-
-
-// function anything() {
-
-//     // // Get reference to buffer~ object
-//     // var buffer = new Buffer(bufferName);
-//     // if (!buffer) {
-//     //     helpers.print("Buffer not found: " + bufferName);
-//     //     return;
-//     // } else {
-//     //     helpers.print("found buffer: " + bufferName);
-//     // }
-
-//     var samplerate = bufferManager.getSampleRate();
-//     var buffer = bufferManager.getBuffer();    
-
-//     adaptiveSlopeGlobal.adaptiveSlope(buffer);
-
-// };

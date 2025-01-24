@@ -7,7 +7,6 @@ phaseDensityGlobal.method = function(
     sampleRate,
     params
 ) {
-    helpers.print("Running Divergent Dynamic Ramp Process");
 
     // Set defaults
     sampleRate  =helpers.defaultValue(sampleRate, 44100);
@@ -25,7 +24,6 @@ phaseDensityGlobal.method = function(
     var totalSamples = range.total;
     var startSamp = range.start;
     var endSamp = range.end;
-    var length = endSamp - startSamp;
 
     // Read initial buffer values
     var prevValues = helpers.createArray(totalSamples, function (i) {

@@ -1,6 +1,5 @@
 var helpers = new Global("helpersShared");
 var toussaintGlobal = new Global("toussaintShared");
-var bufferManager = new Global("bufferManagerShared");
 
 toussaintGlobal.method = function(
     bufferObject,
@@ -28,10 +27,10 @@ toussaintGlobal.method = function(
     var eucRamp = steppedToussaint(steps, hits, rotation);
 
     for (var i = startSamp; i < endSamp; i++) {
-        const existingSample = bufferObject.peek(1, i);
-        const phaseInEuclid = (i - startSamp) / (endSamp - startSamp);
+        const phaseInEuclid = helpers.remap(i, startSamp, endSamp, 0, 1);
         const step = Math.floor(phaseInEuclid * eucRamp.length);
-        const value = startPhase+(mutationMagnitude*eucRamp[step])
+        const value = helpers.remap(eucRamp[step], 0, 1, startPhase, endPhase);
+        const existingSample = bufferObject.peek(1, i);
         bufferObject.poke(1, i, helpers.blend(existingSample, value, alpha));
     }
 };
@@ -43,12 +42,7 @@ function steppedToussaint(steps, hits, rotation) {
         hits
     );
 
-    outlet(0, seq);
     return seq;
-
-    // var revSeq = seq.reverse();
-    // outlet(0, revSeq);
-	// return revSeq;
 }
 
 // Toussaint's Method

@@ -24,13 +24,10 @@ superformulaGlobal.method = function(
     var totalSampleCount = range.total;
     var startSamp = range.start;
     var endSamp = range.end;
-    var mutationMagnitude = (endSamp - startSamp) / totalSampleCount;
-
-
-    var startingSampleValue = bufferObject.peek(1, startSamp);
+    
     for (var i = startSamp; i < endSamp; i++) {
-        var currentSampleValue = bufferObject.peek(1/*channel 1*/, i); //unused in basic saw method here
-        const rawPhase = i / (endSamp - startSamp)
+        var currentSampleValue = bufferObject.peek(1, i);
+        const rawPhase = i / (endSamp - startSamp);
         const theta =  i / (endSamp - startSamp) * 4 * Math.PI;
 
         // Apply the superformula expression
@@ -43,18 +40,11 @@ superformulaGlobal.method = function(
             ,
             n1
         );
-        const roomToGoUp = 1-currentSampleValue;
-        const roomToGoDown = currentSampleValue;
 
         bufferObject.poke(
-            /*channel*/1, 
-            i/*samp index*/,  
-            alpha*(0.5*currentSampleValue + 
-                (
-                    mutationMagnitude*(rawPhase*0.25 + r)+
-                    startingSampleValue
-                )
-            )+(1-alpha)*currentSampleValue
+            1, 
+            i, 
+            helpers.blend(currentSampleValue, helpers.remap(r, 0, 1, startPhase, endPhase), alpha)  
         );
     }
 };

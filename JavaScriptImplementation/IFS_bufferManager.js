@@ -19,6 +19,8 @@ bufferManagerGlobal.getSampleRate = function() {
 };
 
 ///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
 // Buffer instantiation method
 bufferManagerGlobal.initBuffer = function() {
@@ -29,19 +31,19 @@ bufferManagerGlobal.initBuffer = function() {
     return this.state.currentBuffer;
 };
 
+// Setter that also initializes the buffer
+bufferManagerGlobal.setBufferName = function(name) {
+    if (typeof name !== "string" || name.trim() === "") {
+        return false;
+    }
+    this.state.bufferName = name;
+    return this.initBuffer() !== null;
+};
+
 // Getter for the buffer instance
 bufferManagerGlobal.getBuffer = function() {
     if (!this.state.currentBuffer) {
         return this.initBuffer();
     }
     return this.state.currentBuffer;
-};
-
-// Setter that also initializes the buffer
-bufferManagerGlobal.setBuffer = function(name) {
-    if (typeof name !== "string" || name.trim() === "") {
-        return false;
-    }
-    this.state.bufferName = name;
-    return this.initBuffer() !== null;
 };

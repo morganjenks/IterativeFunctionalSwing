@@ -17,8 +17,6 @@ exponentGlobal.method = function(
     var exp = helpers.defaultValue(params[3], 2);
     var alpha = helpers.defaultValue(params[4], 1);
 
-    helpers.print("alpha: " + alpha);
-
     var range = helpers.calculateSampleRange(bufferObject, sampleRate, startPhase, endPhase);
     var totalSampleCount = range.total;
     var startSamp = range.start;
@@ -26,12 +24,12 @@ exponentGlobal.method = function(
     var mutationMagnitude = (endSamp - startSamp) / totalSampleCount;
 
     for (var i = startSamp; i < endSamp; i++) {
-        var preMutationSampleValue = bufferObject.peek(1/*channel 1*/, i); // unused in basic saw method here
+        var preMutationSampleValue = bufferObject.peek(1/*channel 1*/, i);
         var expandedPhase = freq * i / (endSamp - startSamp);
         var step = Math.floor(expandedPhase) / freq;
         var steppedExponent = (Math.pow(expandedPhase % 1.0, exp) / freq) + step;
         var rescaledScallop = steppedExponent * mutationMagnitude;
         var deviation = rescaledScallop - (i / totalSampleCount);
-        bufferObject.poke(/*channel*/1, i, helpers.blend(preMutationSampleValue, preMutationSampleValue + deviation, alpha));
+        bufferObject.poke(1, i, helpers.blend(preMutationSampleValue, preMutationSampleValue + deviation, alpha));
     }
 };

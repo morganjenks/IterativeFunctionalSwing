@@ -29,10 +29,10 @@ bjorklundGlobal.method = function(
     var eucRamp = steppedBjorklund(steps, hits, rotation);
     
     for (var i = startSamp; i < endSamp; i++) {
-        const existingSample = bufferObject.peek(1, i);
-        const phaseInEuclid = (i - startSamp) / (endSamp - startSamp);
+        const phaseInEuclid = helpers.remap(i, startSamp, endSamp, 0, 1);//(i - startSamp) / (endSamp - startSamp);
         const step = Math.floor(phaseInEuclid * eucRamp.length);
-        const value = startPhase+(mutationMagnitude*eucRamp[step]);
+        const value = helpers.remap(eucRamp[step], 0, 1, startPhase, endPhase);//startPhase+(mutationMagnitude*eucRamp[step]);
+        const existingSample = bufferObject.peek(1, i);
         bufferObject.poke(1, i, helpers.blend(existingSample, value, alpha));
         
     }
