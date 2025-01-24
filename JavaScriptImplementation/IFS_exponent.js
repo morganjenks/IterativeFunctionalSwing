@@ -1,29 +1,37 @@
+var helpers = new Global("helpersShared");
 var exponentGlobal = new Global("exponentShared");
 
 exponentGlobal.method = function(
     bufferObject,
-    sampleRate = 44100,
-    startPhase = 0,
-    endPhase = 1,
-    params = []
+    sampleRate,
+    params
 ) {
-    //SET UP DEFAULTS if args are falsy
-    var freq = params[0] ?? 1;
-    var exp = params[1] ?? 2;
 
+    // SET UP DEFAULTS if args are falsy
+    sampleRate = helpers.defaultValue(sampleRate, 44100);
+    params = helpers.defaultValue(params, []);
+    startPhase = helpers.defaultValue(params[0], 0);
+    endPhase = helpers.defaultValue(params[1], 1);
 
-    var totalSampleCount = bufferObject.length() * sampleRate / 1000;
-    var startSamp = (startPhase * totalSampleCount).toFixed();
-    var endSamp = (endPhase * totalSampleCount).toFixed();
+    var freq = helpers.defaultValue(params[2], 1);
+    var exp = helpers.defaultValue(params[3], 2);
+    var alpha = helpers.defaultValue(params[4], 1);
+
+    helpers.print("alpha: " + alpha);
+
+    var range = helpers.calculateSampleRange(bufferObject, sampleRate, startPhase, endPhase);
+    var totalSampleCount = range.total;
+    var startSamp = range.start;
+    var endSamp = range.end;
     var mutationMagnitude = (endSamp - startSamp) / totalSampleCount;
 
     for (var i = startSamp; i < endSamp; i++) {
-        var preMutationSampleValue = bufferObject.peek(1/*channel 1*/, i); //unused in basic saw method here
-        const expandedPhase = freq * i / (endSamp - startSamp);
-        const step = Math.floor(expandedPhase) / freq;
-        const steppedExponent =  (Math.pow(expandedPhase % 1.0, exp) / freq) + step;
-        const rescaledScallop = steppedExponent*mutationMagnitude;
-        const deviation = rescaledScallop - (i / (totalSampleCount)); 
-        bufferObject.poke(/*channel*/1, i, preMutationSampleValue + deviation);
+        var preMutationSampleValue = bufferObject.peek(1/*channel 1*/, i); // unused in basic saw method here
+        var expandedPhase = freq * i / (endSamp - startSamp);
+        var step = Math.floor(expandedPhase) / freq;
+        var steppedExponent = (Math.pow(expandedPhase % 1.0, exp) / freq) + step;
+        var rescaledScallop = steppedExponent * mutationMagnitude;
+        var deviation = rescaledScallop - (i / totalSampleCount);
+        bufferObject.poke(/*channel*/1, i, helpers.blend(preMutationSampleValue, preMutationSampleValue + deviation, alpha));
     }
-}
+};

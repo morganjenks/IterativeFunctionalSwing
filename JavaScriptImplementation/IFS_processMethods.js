@@ -1,85 +1,82 @@
-//print for max console
-function print(msg) {
-    post(msg + "\n")
-}
+var helpers = new Global("helpersShared");
+var sawGlobal = new Global("sawShared");
+var exponentGlobal = new Global("exponentShared");
+var bjorklundGlobal = new Global("bjorklundShared");
+var toussaintGlobal = new Global("toussaintShared");
+var bresenhamGlobal = new Global("bresenhamShared");
+var phaseDensityGlobal = new Global("phaseDensityShared");
+var standardCircleMapGlobal = new Global("standardCircleMapShared");
+var superformulaGlobal = new Global("superformulaShared");
 
-// Access the global objects
-var sawGlobal = new Global("sawShared")
-var exponentGlobal = new Global("exponentShared")
-// var bjorklundGlobal = new Global("bjorklundShared")
-// var toussaintGlobal = new Global("toussaintShared")
-// var superformulaGlobal = new Global("superformulaShared")
-// var stepGlobal = new Global("stepShared")
-// var circleMapGlobal = new Global("standardCircleMapShared")
+var methods = {
+    "saw": sawGlobal, 
+    "exp": exponentGlobal,
+    "pdc": phaseDensityGlobal,
+    "cir": standardCircleMapGlobal,
+    "bjo": bjorklundGlobal,
+    "tou": toussaintGlobal,
+    "bre": bresenhamGlobal,
+    "sup": superformulaGlobal
+};
 
-const methods = {
-    "saw":sawGlobal, 
-    "exp":exponentGlobal,
-    // "bjo":bjorklundGlobal,
-    // "tou":toussaintGlobal,
-    // "sup":superformulaGlobal,
-    // "stp":stepGlobal,
-    // "cir":circleMapGlobal,
-}
-
-var bufferName = ""
-var samplerate
+var bufferName = "";
+var samplerate;
 
 function setBuffer(name) {
     if (typeof name !== "string" || name.trim() === "") {
-        print("Invalid buffer name.");
+        helpers.print("Invalid buffer name.");
         return;
     }
     bufferName = name;
-    print("Buffer set to: " + bufferName);
+    helpers.print("Buffer set to: " + bufferName);
 }
 
 function setSampleRate(sr) {
     if (typeof sr !== "number" || sr <= 0) {
-        print("Invalid sample rate: " + sr);
+        helpers.print("Invalid sample rate: " + sr);
         return;
     }
     samplerate = sr;
-    print("Sample rate set to: " + sr);
+    helpers.print("Sample rate set to: " + sr);
 }
 
-//runs for unmatched first list element from Max
 function anything() {
-    var method, startPhase, endPhase, params
+    helpers.print("running anything method")
+	var method, startPhase, endPhase, params;
     
     // Convert incoming arguments to a proper array
-    var argsArray = arrayfromargs(arguments)
-    if(argsArray.length < 3) {
-        print("Not enough arguments passed in.. arguments should be (methodName startPhase endPhase [optional arguments list])")
-        return
+    var argsArray = arrayfromargs(arguments);
+    if (argsArray.length < 1) {
+        helpers.print("Not enough arguments passed in.. arguments should be (methodName [optional arguments list])");
+        return;
     } 
     
-    method = argsArray.shift()
-    startPhase = parseFloat(argsArray.shift())
-    endPhase = parseFloat(argsArray.shift())
-    params = argsArray
+    method = argsArray.shift();
+    params = argsArray;
     
-
-    //get reference to buffer~ object
-	const buffer = new Buffer(bufferName)
+    // Get reference to buffer~ object
+    var buffer = new Buffer(bufferName);
     if (!buffer) {
-        print("Buffer not found: " + bufferName)
-        return
-    } 
-
-    if(!methods[method]) {
-        print(`Unsupported method '${method}'. Available methods: ${Object.keys(methods).join(", ")}`)
-        return
+        helpers.print("Buffer not found: " + bufferName);
+        return;
+    } else {
+        helpers.print("found buffer: " + bufferName);
     }
     
-    //Mutate the buffer
+    helpers.print(methods);
+
+    if (!methods[method]) {
+        helpers.print("Unsupported method");
+        return;
+    }
+    
+    helpers.print("method is: " + method);
+    // Mutate the buffer
     methods[method].method(
         buffer,
         samplerate,
-        startPhase,
-        endPhase,
         params
-    )
+    );
+
+    helpers.print("method complete");
 }
-
-
