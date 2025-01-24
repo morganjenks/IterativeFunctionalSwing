@@ -1,29 +1,30 @@
 var adaptiveSlopeGlobal = new Global("adaptiveSlopeShared");
 var helpers = new Global("helpersShared");
+// var bufferManager = new Global("bufferManagerShared");
 
-var bufferName = "";
-var samplerate;
+// var bufferName = "";
+// var samplerate;
 
-function setBuffer(name) {
-    if (typeof name !== "string" || name.trim() === "") {
-        helpers.print("Invalid buffer name.");
-        return;
-    }
-    bufferName = name;
-    helpers.print("Buffer set to: " + bufferName);
-}
+// function setBuffer(name) {
+//     if (typeof name !== "string" || name.trim() === "") {
+//         helpers.print("Invalid buffer name.");
+//         return;
+//     }
+//     bufferName = name;
+//     helpers.print("Buffer set to: " + bufferName);
+// }
 
-function setSampleRate(sr) {
-    if (typeof sr !== "number" || sr <= 0) {
-        helpers.print("Invalid sample rate: " + sr);
-        return;
-    }
-    samplerate = sr;
-    helpers.print("Sample rate set to: " + sr);
-}
+// function setSampleRate(sr) {
+//     if (typeof sr !== "number" || sr <= 0) {
+//         helpers.print("Invalid sample rate: " + sr);
+//         return;
+//     }
+//     samplerate = sr;
+//     helpers.print("Sample rate set to: " + sr);
+// }
 
 
-adaptiveSlopeGlobal.adaptiveSlope = function (bufferObject) {
+adaptiveSlopeGlobal.method = function (bufferObject, samplerate) {
     var samples = [];
     var slopes = [];
 
@@ -67,19 +68,20 @@ adaptiveSlopeGlobal.adaptiveSlope = function (bufferObject) {
 };
 
 
-function anything() {
+// function anything() {
 
-    // Get reference to buffer~ object
-    var buffer = new Buffer(bufferName);
-    if (!buffer) {
-        helpers.print("Buffer not found: " + bufferName);
-        return;
-    } else {
-        helpers.print("found buffer: " + bufferName);
-    }
+//     // // Get reference to buffer~ object
+//     // var buffer = new Buffer(bufferName);
+//     // if (!buffer) {
+//     //     helpers.print("Buffer not found: " + bufferName);
+//     //     return;
+//     // } else {
+//     //     helpers.print("found buffer: " + bufferName);
+//     // }
 
-    
+//     var samplerate = bufferManager.getSampleRate();
+//     var buffer = bufferManager.getBuffer();    
 
-    adaptiveSlopeGlobal.adaptiveSlope(buffer);
+//     adaptiveSlopeGlobal.adaptiveSlope(buffer);
 
-};
+// };

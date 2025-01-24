@@ -1,6 +1,7 @@
 var helpers = new Global("helpersShared");
 var bjorklundGlobal = new Global("bjorklundShared");
 
+
 bjorklundGlobal.method = function(
     bufferObject,
     sampleRate,

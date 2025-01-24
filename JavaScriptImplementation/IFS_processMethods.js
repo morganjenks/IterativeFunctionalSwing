@@ -1,4 +1,6 @@
+var bufferManager = new Global("bufferManagerShared");
 var helpers = new Global("helpersShared");
+var adaptiveSlopeGlobal = new Global("adaptiveSlopeShared");
 var sawGlobal = new Global("sawShared");
 var exponentGlobal = new Global("exponentShared");
 var bjorklundGlobal = new Global("bjorklundShared");
@@ -16,28 +18,33 @@ var methods = {
     "bjo": bjorklundGlobal,
     "tou": toussaintGlobal,
     "bre": bresenhamGlobal,
-    "sup": superformulaGlobal
+    "sup": superformulaGlobal,
+    "adaptiveSlope" : adaptiveSlopeGlobal,
 };
 
-var bufferName = "";
-var samplerate;
 
 function setBuffer(name) {
-    if (typeof name !== "string" || name.trim() === "") {
-        helpers.print("Invalid buffer name.");
-        return;
-    }
-    bufferName = name;
-    helpers.print("Buffer set to: " + bufferName);
+    //if (typeof name !== "string" || name.trim() === "") {
+    //    helpers.print("Invalid buffer name.");
+    //    return;
+    //}
+    //bufferName = name;
+    //helpers.print("Buffer set to: " + bufferName);
+
+	bufferManager.setBuffer(name);
+	
 }
 
 function setSampleRate(sr) {
-    if (typeof sr !== "number" || sr <= 0) {
-        helpers.print("Invalid sample rate: " + sr);
-        return;
-    }
-    samplerate = sr;
-    helpers.print("Sample rate set to: " + sr);
+//    if (typeof sr !== "number" || sr <= 0) {
+//        helpers.print("Invalid sample rate: " + sr);
+//        return;
+//    }
+//    samplerate = sr;
+//    helpers.print("Sample rate set to: " + sr);
+
+	bufferManager.setSampleRate(sr);
+
 }
 
 function anything() {
@@ -55,13 +62,14 @@ function anything() {
     params = argsArray;
     
     // Get reference to buffer~ object
-    var buffer = new Buffer(bufferName);
-    if (!buffer) {
-        helpers.print("Buffer not found: " + bufferName);
-        return;
-    } else {
-        helpers.print("found buffer: " + bufferName);
-    }
+//    var buffer = new Buffer(bufferName);
+//    if (!buffer) {
+//        helpers.print("Buffer not found: " + bufferName);
+//        return;
+//    } else {
+//        helpers.print("found buffer: " + bufferName);
+//    }
+
     
     helpers.print(methods);
 
@@ -73,8 +81,8 @@ function anything() {
     helpers.print("method is: " + method);
     // Mutate the buffer
     methods[method].method(
-        buffer,
-        samplerate,
+        bufferManager.getBuffer(),
+        bufferManager.getSampleRate(),
         params
     );
 

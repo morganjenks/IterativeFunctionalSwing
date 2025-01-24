@@ -18,6 +18,8 @@ bufferManagerGlobal.getSampleRate = function() {
     return this.state.samplerate;
 };
 
+///////////////////////////////////////////////////////////////////////////////
+
 // Buffer instantiation method
 bufferManagerGlobal.initBuffer = function() {
     if (!this.state.bufferName) {
@@ -36,7 +38,7 @@ bufferManagerGlobal.getBuffer = function() {
 };
 
 // Setter that also initializes the buffer
-bufferManagerGlobal.setBufferName = function(name) {
+bufferManagerGlobal.setBuffer = function(name) {
     if (typeof name !== "string" || name.trim() === "") {
         return false;
     }

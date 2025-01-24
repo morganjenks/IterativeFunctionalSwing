@@ -1,5 +1,6 @@
 var helpers = new Global("helpersShared");
 var toussaintGlobal = new Global("toussaintShared");
+var bufferManager = new Global("bufferManagerShared");
 
 toussaintGlobal.method = function(
     bufferObject,
