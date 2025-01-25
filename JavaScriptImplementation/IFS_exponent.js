@@ -21,15 +21,15 @@ exponentGlobal.method = function(
     var totalSampleCount = range.total;
     var startSamp = range.start;
     var endSamp = range.end;
-    var mutationMagnitude = (endSamp - startSamp) / totalSampleCount;
 
     for (var i = startSamp; i < endSamp; i++) {
-        var preMutationSampleValue = bufferObject.peek(1/*channel 1*/, i);
-        var expandedPhase = freq * i / (endSamp - startSamp);
-        var step = Math.floor(expandedPhase) / freq;
-        var steppedExponent = (Math.pow(expandedPhase % 1.0, exp) / freq) + step;
-        var rescaledScallop = steppedExponent * mutationMagnitude;
-        var deviation = rescaledScallop - (i / totalSampleCount);
-        bufferObject.poke(1, i, helpers.blend(preMutationSampleValue, preMutationSampleValue + deviation, alpha));
+        var indexInBuffer = helpers.modulo(i, totalSampleCount);
+        var existingSampleValue = bufferObject.peek(1, indexInBuffer);
+        var expandedPhase = helpers.remap(i, startSamp, endSamp, 0, 1) * freq;
+        var step = Math.floor(expandedPhase);
+        var exponentValue = Math.pow(helpers.modulo(expandedPhase, 1.0), exp);
+        var rescaledScallop = helpers.remap(exponentValue + step, 0, freq, 0, 1);
+        var pokeValue =  helpers.blend(existingSampleValue, rescaledScallop, alpha);
+        bufferObject.poke(1, indexInBuffer, pokeValue);
     }
 };

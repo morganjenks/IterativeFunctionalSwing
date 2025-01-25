@@ -26,9 +26,10 @@ superformulaGlobal.method = function(
     var endSamp = range.end;
     
     for (var i = startSamp; i < endSamp; i++) {
-        var currentSampleValue = bufferObject.peek(1, i);
-        const rawPhase = i / (endSamp - startSamp);
-        const theta =  i / (endSamp - startSamp) * 4 * Math.PI;
+        const indexInBuffer = helpers.modulo(i, totalSampleCount);
+        const currentSampleValue = bufferObject.peek(1, indexInBuffer);
+        const rawPhase = helpers.remap(i, startSamp, endSamp, 0, 1);//i / (endSamp - startSamp);
+        const theta =  rawPhase * 4 * Math.PI;
 
         // Apply the superformula expression
         const r = Math.pow(
@@ -41,10 +42,13 @@ superformulaGlobal.method = function(
             n1
         );
 
+        const mappedRadius = helpers.remap(r, 0, 1, startPhase, endPhase);
+        const modRadius = helpers.modulo(mappedRadius, 1.0);
+
         bufferObject.poke(
             1, 
-            i, 
-            helpers.blend(currentSampleValue, helpers.remap(r, 0, 1, startPhase, endPhase), alpha)  
+            indexInBuffer, 
+            helpers.blend(currentSampleValue, modRadius, alpha)  
         );
     }
 };

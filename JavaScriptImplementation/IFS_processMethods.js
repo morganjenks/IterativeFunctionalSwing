@@ -46,12 +46,12 @@ function anything() {
     method = argsArray.shift();
     params = argsArray;
     
-    helpers.print(methods);
-
     if (!methods[method]) {
         helpers.print("Unsupported method");
         return;
     }
+
+    helpers.print(params);
     
     helpers.print("method is: " + method);
     // Mutate the buffer

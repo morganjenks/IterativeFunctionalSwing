@@ -27,11 +27,12 @@ toussaintGlobal.method = function(
     var eucRamp = steppedToussaint(steps, hits, rotation);
 
     for (var i = startSamp; i < endSamp; i++) {
+        const indexInBuffer = helpers.modulo(i, totalSampleCount);
         const phaseInEuclid = helpers.remap(i, startSamp, endSamp, 0, 1);
         const step = Math.floor(phaseInEuclid * eucRamp.length);
-        const value = helpers.remap(eucRamp[step], 0, 1, startPhase, endPhase);
-        const existingSample = bufferObject.peek(1, i);
-        bufferObject.poke(1, i, helpers.blend(existingSample, value, alpha));
+        const value = eucRamp[step];
+        const existingSample = bufferObject.peek(1, indexInBuffer);
+        bufferObject.poke(1, indexInBuffer, helpers.blend(existingSample, value, alpha));
     }
 };
 

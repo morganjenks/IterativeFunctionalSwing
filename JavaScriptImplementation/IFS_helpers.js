@@ -37,6 +37,11 @@ helpersGlobal.remap = function(value, fromMin, fromMax, toMin, toMax) {
     return toMin + (value - fromMin) * (toMax - toMin) / (fromMax - fromMin);
 };
 
+//handle modulus even with negative numbers
+helpersGlobal.modulo = function(n, m) {
+    return ((n % m) + m) % m;
+};
+
 
 //used for euclidean functions. converts pulses array of 1s or 0s into normalized step ramp.
 helpersGlobal.pulsesToSteps = function(array, hits) {
@@ -45,8 +50,8 @@ helpersGlobal.pulsesToSteps = function(array, hits) {
     {
         if(array[i] == 1)
         {
-            count+=1/hits;
             array[i] = count;
+            count+=1/hits;
         } else {
             array[i] = count
         }

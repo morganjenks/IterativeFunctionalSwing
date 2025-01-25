@@ -32,7 +32,7 @@ bufferManagerGlobal.initBuffer = function() {
 };
 
 // Setter that also initializes the buffer
-bufferManagerGlobal.setBufferName = function(name) {
+bufferManagerGlobal.setBuffer = function(name) {
     if (typeof name !== "string" || name.trim() === "") {
         return false;
     }

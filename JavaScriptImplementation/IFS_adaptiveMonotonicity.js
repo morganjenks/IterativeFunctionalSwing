@@ -1,6 +1,7 @@
 var adaptiveMonotonicityGlobal = new Global("adaptiveMonotonicityShared");
 var helpers = new Global("helpersShared");
 
+
 adaptiveMonotonicityGlobal.method = function (bufferObject, samplerate) {
     var samples = [];
     var slopes = [];

@@ -35,19 +35,23 @@ phaseDensityGlobal.method = function(
 
     // Process buffer samples
     for (var i = startSamp; i < endSamp; i++) {
-        var parentIndex = Math.round(i % totalSamples);
-        var basis = parentIndex / totalSamples;
+        var indexInBuffer = Math.round(helpers.modulo(i, totalSamples));
+        var basis = indexInBuffer / totalSamples;
 
         //Calculate deviation from basis
-        var initialDeviation = Math.abs(prevValues[parentIndex] - basis);
+        var initialDeviation = Math.abs(prevValues[indexInBuffer] - basis);
 
         // Non-linear scaling for deviation
         var scaledDeviation = Math.pow(initialDeviation, 1.5); // Exponential scaling
 
         //Calculate offset index
-        var offsetIndex = Math.round(
-            helpers.remap(scaledDeviation, 0, 1, minWake, maxWake) * totalSamples
-        ) % totalSamples;
+        var offsetIndex = helpers.modulo(
+            Math.round(
+                helpers.remap(scaledDeviation, 0, 1, minWake, maxWake) 
+                * totalSamples
+            ), 
+            totalSamples
+        );
 
         // Sample the offset index
         var offsetSample = bufferObject.peek(1, offsetIndex);
@@ -60,7 +64,7 @@ phaseDensityGlobal.method = function(
 
         // Introduce a global phase drift
         globalPhaseShift += (0.01 * combinedDeviation); // Slowly shift phase based on deviation
-        var driftedBasis = (basis + globalPhaseShift) % 1;
+        var driftedBasis = helpers.modulo((basis + globalPhaseShift), 1);
 
         // Phase modulation for dynamic behavior
         var phaseMod = Math.sin(2 * Math.PI * driftedBasis) * 0.5 + 0.5; // [0, 1] range
@@ -74,14 +78,14 @@ phaseDensityGlobal.method = function(
         var dynamicAlpha = alpha * (1 - combinedDeviation); // Higher deviation = less influence from previous state
 
         // Add divergence: Use neighbor deviations to vary blending
-        var neighborDeviation = Math.abs(prevValues[(parentIndex + 1) % totalSamples] - basis);
+        var neighborDeviation = Math.abs(prevValues[helpers.modulo((indexInBuffer + 1), totalSamples)] - basis);
         dynamicAlpha += neighborDeviation * 0.2; // Boost alpha based on neighbor
 
         //Blend new value
-        var mixedSample = helpers.blend(prevValues[parentIndex], basis + perturbationValue, dynamicAlpha);
+        var mixedSample = helpers.blend(prevValues[indexInBuffer], basis + perturbationValue, dynamicAlpha);
 
         // Write back to buffer
-        bufferObject.poke(1, parentIndex, mixedSample);
+        bufferObject.poke(1, indexInBuffer, mixedSample);
     }
 };
 
