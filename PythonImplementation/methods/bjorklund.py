@@ -1,4 +1,5 @@
 import numpy as np
+from methods.helpers import default_values
 
 def bjorklund_method(bufferObject, start_phase=0, end_phase=1, params=None):
     """
@@ -16,10 +17,7 @@ def bjorklund_method(bufferObject, start_phase=0, end_phase=1, params=None):
         np.ndarray: The computed buffer values.
     """
     # Set defaults for params
-    total_steps = params[0] if params and len(params) > 0 else 8
-    hits = params[1] if params and len(params) > 1 else 3
-    rotation = params[2] if params and len(params) > 2 else 0
-    blend = params[3] if params and len(params) > 3 else 0.5
+    total_steps, hits, rotation, blend = default_values(params, [8,3,0,0.5])
 
     # Compute total sample count and start/end indices
     start_samp = int(start_phase * len(bufferObject))

@@ -4,9 +4,6 @@ import numpy as np
 def print_message(msg):
     print(msg)
 
-def default_value(something, default_value):
-    return something if something is not None else default_value
-
 def default_values(something, default_val):
     if isinstance(default_val, (list, tuple)):
         something = something or []

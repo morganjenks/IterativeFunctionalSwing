@@ -1,23 +1,11 @@
 import numpy as np
-from methods.helpers import default_value, default_values, modulo, remap, blend
+from methods.helpers import default_values, modulo, remap, blend
 
 def superformula_method(buffer_object, start_phase=0, end_phase=1, params=None):
     if params is None:
         params = []
-    '''
-    # Set defaults
-    m1 = default_value(params[0] if len(params) > 0 else None, 4)
-    m2 = default_value(params[1] if len(params) > 1 else None, 3)
-    n1 = default_value(params[2] if len(params) > 2 else None, 1)
-    n2 = default_value(params[3] if len(params) > 3 else None, 1)
-    n3 = default_value(params[4] if len(params) > 4 else None, 1)
-    a = default_value(params[5] if len(params) > 5 else None, 1)
-    b = default_value(params[6] if len(params) > 6 else None, 1)
-    alpha = default_value(params[7] if len(params) > 7 else None, 0.5)
-    '''
 
     m1, m2, n1, n2, n3, a, b, alpha = default_values(params, [4, 3, 1, 1, 1, 1, 1, 0.5])
-    print("new default values called.")
     total_sample_count = len(buffer_object)
     start_samp = int(start_phase * total_sample_count)
     end_samp = int(end_phase * total_sample_count)

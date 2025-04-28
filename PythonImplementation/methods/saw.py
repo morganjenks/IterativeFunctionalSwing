@@ -1,8 +1,8 @@
 import numpy as np
+from methods.helpers import default_values
 
 def saw_method(bufferObject, start_phase=0, end_phase=1, params=None):
-    freq = params[0] if params and len(params) > 0 else 1
-    blend = params[1] if params and len(params) > 0 else 1
+    freq, blend = default_values(params, [1, 1])
 
     total_samps = len(bufferObject)
     start_samp = int(start_phase * total_samps)

@@ -1,14 +1,12 @@
 import numpy as np
-from methods.helpers import default_value, calculate_sample_range, modulo, remap, blend
+from methods.helpers import default_values, calculate_sample_range, modulo, remap, blend
 
 def exponent_method(buffer_object, start_phase=0, end_phase=1, params=None):
     if params is None:
         params = []
 
     # Set up defaults if args are falsy
-    freq = default_value(params[0] if len(params) > 0 else None, 4)
-    exp = default_value(params[1] if len(params) > 1 else None, 2)
-    alpha = default_value(params[2] if len(params) > 2 else None, 0.6)
+    freq, exp, alpha = default_values(params, [4,2,0.6])
 
     total_samps = len(buffer_object)
     start_samp = int(start_phase * total_samps)

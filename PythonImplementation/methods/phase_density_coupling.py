@@ -1,16 +1,12 @@
 import numpy as np
-from methods.helpers import default_value, modulo, remap, blend, create_array
+from methods.helpers import default_values, modulo, remap, blend, create_array
 
 def phase_density_method(buffer_object, start_phase=0, end_phase=1, params=None):
     if params is None:
         params = []
 
     # Set defaults
-    alpha = default_value(params[0] if len(params) > 0 else None, 0.5)  # Base blending factor
-    min_freq = default_value(params[1] if len(params) > 1 else None, 0.2)  # Minimum frequency
-    max_freq = default_value(params[2] if len(params) > 2 else None, 3)  # Maximum frequency
-    min_wake = default_value(params[3] if len(params) > 3 else None, 0.1)  # Minimum offset
-    max_wake = default_value(params[4] if len(params) > 4 else None, 0.4)  # Maximum offset
+    min_freq, max_freq, min_wake, max_wake, alpha = default_values(params, [0.2, 3, 0.1, 0.4, 0.5])
 
     total_samples = len(buffer_object)
     start_samp = int(start_phase * total_samples)
