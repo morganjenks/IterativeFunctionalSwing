@@ -4,10 +4,10 @@ from .helpers import calculate_sample_range, min_max_of_array, remap
 def adaptive_monotonicity_method(buffer_object, start_phase=0, end_phase=1, params=None):
     samples = []
     slopes = []
-    
-    total_sample_count = len(buffer_object)
-    start_samp = int(start_phase * total_sample_count)
-    end_samp = int(end_phase * total_sample_count)
+
+
+    # Compute total sample count and start/end indices
+    total_sample_count, start_samp, end_samp, mutation_magnitude = calculate_sample_range(buffer_object, start_phase, end_phase)
     
     # Calculate slopes between adjacent points
     for i in range(start_samp, end_samp - 1):

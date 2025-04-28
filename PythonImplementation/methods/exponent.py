@@ -8,12 +8,10 @@ def exponent_method(buffer_object, start_phase=0, end_phase=1, params=None):
     # Set up defaults if args are falsy
     freq, exp, alpha = default_values(params, [4,2,0.6])
 
-    total_samps = len(buffer_object)
-    start_samp = int(start_phase * total_samps)
-    end_samp = int(end_phase * total_samps)
+    total_sample_count, start_samp, end_samp, mutation_magnitude = calculate_sample_range(buffer_object, start_phase, end_phase)
 
     for i in range(start_samp, end_samp):
-        index_in_buffer = modulo(i, total_samps)
+        index_in_buffer = modulo(i, total_sample_count)
         existing_sample_value = buffer_object[index_in_buffer]
         expanded_phase = remap(i, start_samp, end_samp, 0, 1) * freq
         step = np.floor(expanded_phase)

@@ -1,14 +1,14 @@
 import numpy as np
-from methods.helpers import default_values, modulo, remap, blend
+from methods.helpers import default_values, calculate_sample_range, modulo, remap, blend
 
 def superformula_method(buffer_object, start_phase=0, end_phase=1, params=None):
     if params is None:
         params = []
 
     m1, m2, n1, n2, n3, a, b, alpha = default_values(params, [4, 3, 1, 1, 1, 1, 1, 0.5])
-    total_sample_count = len(buffer_object)
-    start_samp = int(start_phase * total_sample_count)
-    end_samp = int(end_phase * total_sample_count)
+
+    total_sample_count, start_samp, end_samp, mutation_magnitude = calculate_sample_range(buffer_object, start_phase, end_phase)
+
 
     for i in range(start_samp, end_samp):
         index_in_buffer = modulo(i, total_sample_count)

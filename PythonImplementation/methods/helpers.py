@@ -1,8 +1,6 @@
 import math
 import numpy as np
 
-def print_message(msg):
-    print(msg)
 
 def default_values(something, default_val):
     if isinstance(default_val, (list, tuple)):
@@ -11,13 +9,12 @@ def default_values(something, default_val):
                      for i in range(len(default_val)))
     return something if something is not None else default_val
 
-def calculate_sample_range(buffer_object, sample_rate, start_phase, end_phase):
-    total_sample_count = int((len(buffer_object) * sample_rate) / 1000)
-    return {
-        'total': total_sample_count,
-        'start': round(start_phase * total_sample_count),
-        'end': round(end_phase * total_sample_count)
-    }
+def calculate_sample_range(buffer_object, start_phase, end_phase, sample_rate=44100):
+    total = len(buffer_object)
+    start = int(start_phase * total)
+    end = int(end_phase * total)
+    magnitude = (end - start) / len(buffer_object)
+    return [total, start, end, magnitude]
 
 def blend(a, b, t):
     return t * b + (1 - t) * a

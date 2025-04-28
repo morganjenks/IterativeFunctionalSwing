@@ -1,5 +1,5 @@
 import numpy as np
-from methods.helpers import default_values, modulo, remap, blend, create_array
+from methods.helpers import default_values, calculate_sample_range, modulo, remap, blend, create_array
 
 def phase_density_method(buffer_object, start_phase=0, end_phase=1, params=None):
     if params is None:
@@ -8,9 +8,8 @@ def phase_density_method(buffer_object, start_phase=0, end_phase=1, params=None)
     # Set defaults
     min_freq, max_freq, min_wake, max_wake, alpha = default_values(params, [0.2, 3, 0.1, 0.4, 0.5])
 
-    total_samples = len(buffer_object)
-    start_samp = int(start_phase * total_samples)
-    end_samp = int(end_phase * total_samples)
+    total_sample_count, start_samp, end_samp, mutation_magnitude = calculate_sample_range(buffer_object, start_phase, end_phase)
+
 
     # Read initial buffer values
     prev_values = buffer_object.copy()
@@ -20,8 +19,8 @@ def phase_density_method(buffer_object, start_phase=0, end_phase=1, params=None)
 
     # Process buffer samples
     for i in range(start_samp, end_samp):
-        index_in_buffer = round(modulo(i, total_samples))
-        basis = index_in_buffer / total_samples
+        index_in_buffer = round(modulo(i, total_sample_count))
+        basis = index_in_buffer / total_sample_count
 
         # Calculate deviation from basis
         initial_deviation = abs(prev_values[index_in_buffer] - basis)
@@ -33,14 +32,14 @@ def phase_density_method(buffer_object, start_phase=0, end_phase=1, params=None)
         offset_index = modulo(
             round(
                 remap(scaled_deviation, 0, 1, min_wake, max_wake) 
-                * total_samples
+                * total_sample_count
             ), 
-            total_samples
+            total_sample_count
         )
 
         # Sample the offset index
         offset_sample = buffer_object[offset_index]
-        offset_basis = offset_index / total_samples
+        offset_basis = offset_index / total_sample_count
         offset_deviation = abs(offset_sample - offset_basis)
 
         # Determine perturbation frequency
@@ -62,7 +61,7 @@ def phase_density_method(buffer_object, start_phase=0, end_phase=1, params=None)
         dynamic_alpha = alpha * (1 - combined_deviation)  # Higher deviation = less influence from previous state
 
         # Add divergence: Use neighbor deviations to vary blending
-        neighbor_deviation = abs(prev_values[modulo((index_in_buffer + 1), total_samples)] - basis)
+        neighbor_deviation = abs(prev_values[modulo((index_in_buffer + 1), total_sample_count)] - basis)
         dynamic_alpha += neighbor_deviation * 0.2  # Boost alpha based on neighbor
 
         # Blend new value
