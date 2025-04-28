@@ -24,16 +24,12 @@ bresenhamGlobal.method = function(
     var endSamp = ranges.end;
     var mutationMagnitude = (endSamp - startSamp) / totalSampleCount;
 
-    helpers.print("mutation magnitude: " + mutationMagnitude);
 
     var eucRamp = eucBresenham(steps, hits, rotation);
 
     var minmax = helpers.minMaxOfArray(eucRamp);
-    helpers.print("minmax::: " + minmax);
     var min = minmax.min;
     var max = minmax.max;
-
-    helpers.print(min + " " + max + " min/max");
 
     for (var i = startSamp; i < endSamp; i++) {
         const indexInBuffer = helpers.modulo(i, totalSampleCount);

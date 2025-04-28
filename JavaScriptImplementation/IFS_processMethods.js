@@ -33,7 +33,6 @@ function setSampleRate(sr) {
 }
 
 function anything() {
-    helpers.print("running anything method")
 	var method, startPhase, endPhase, params;
     
     // Convert incoming arguments to a proper array
