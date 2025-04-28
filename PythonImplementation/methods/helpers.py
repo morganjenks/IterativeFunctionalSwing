@@ -7,6 +7,13 @@ def print_message(msg):
 def default_value(something, default_value):
     return something if something is not None else default_value
 
+def default_values(something, default_val):
+    if isinstance(default_val, (list, tuple)):
+        something = something or []
+        return tuple(something[i] if i < len(something) and something[i] is not None else default_val[i]
+                     for i in range(len(default_val)))
+    return something if something is not None else default_val
+
 def calculate_sample_range(buffer_object, sample_rate, start_phase, end_phase):
     total_sample_count = int((len(buffer_object) * sample_rate) / 1000)
     return {
