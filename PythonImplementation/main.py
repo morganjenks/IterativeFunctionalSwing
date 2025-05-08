@@ -52,9 +52,9 @@ bresenham_method(buffer, 0, 1, [16, 3, 0, 0.5])
 # optional params: min_freq, max_freq, min_wake, max_wake, blend
 phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.1])
 # run multiple passes for dynamical result
-# phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.05])
-# phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.05])
-# phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.05])
+phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.05])
+phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.05])
+phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.05])
 
 # optional params: m1, m2, n1, n2, n3, a, b, blend
 # superformula_method(buffer, 0, 1, [4, 3, 1, 1, 1, 1, 1, 0.5])
