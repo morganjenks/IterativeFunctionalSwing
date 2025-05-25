@@ -1,4 +1,4 @@
-# Functional Iterative Swing
+# Iterative Functional Swing
 
 ## Iterative Mutation of Sequencer Phase Ramps
 
