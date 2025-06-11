@@ -17,5 +17,6 @@ def exponent_method(buffer_object, start_phase=0, end_phase=1, params=None):
         step = np.floor(expanded_phase)
         exponent_value = np.power(modulo(expanded_phase, 1.0), exp)
         rescaled_scallop = remap(exponent_value + step, 0, freq, 0, 1)
-        poke_value = blend(existing_sample_value, rescaled_scallop, alpha)
+        remapped = ((end_samp-start_samp)/total_sample_count *rescaled_scallop) + (start_samp / total_sample_count)
+        poke_value = blend(existing_sample_value, remapped , alpha) ## ''' rescaled_scallop'''
         buffer_object[index_in_buffer] = poke_value

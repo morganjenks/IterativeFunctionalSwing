@@ -29,7 +29,8 @@ exponentGlobal.method = function(
         var step = Math.floor(expandedPhase);
         var exponentValue = Math.pow(helpers.modulo(expandedPhase, 1.0), exp);
         var rescaledScallop = helpers.remap(exponentValue + step, 0, freq, 0, 1);
-        var pokeValue =  helpers.blend(existingSampleValue, rescaledScallop, alpha);
+        var remaped = ((endSamp-startSamp)/totalSampleCount*rescaledScallop) +  (startSamp / totalSampleCount)
+        var pokeValue =  helpers.blend(existingSampleValue, remaped, alpha);
         bufferObject.poke(1, indexInBuffer, pokeValue);
     }
 };

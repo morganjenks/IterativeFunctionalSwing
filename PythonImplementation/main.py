@@ -37,33 +37,31 @@ saw_method(buffer, 0, 1, [1, 1])
 # bjorklund_method(buffer, 0, 0.5, [16, 4, 1, 0.4])
 
 # optional params: total steps, hits, rotation, blend
-bresenham_method(buffer, 0, 1, [16, 3, 0, 0.5])
 # bresenham_method(buffer, 0, 1) #no optional params, uses defaults
 
 # optional params: total steps, hits, rotation, blend
-# toussaint_method(buffer, 0, 1, [16, 5, 0, 0.5])
-
-# optional params: k, omega, start_value, blend
-# standard_circle_map_method(buffer,0,1,[5, 0.9, 0, 0.5])
+# toussaint_method(buffer, 0, 0.5, [16, 5, 0, 0.9])
 
 # optional params: subdivisions (freq), exponent, blend
-# exponent_method(buffer, 0, 1, [3, 2, 0.5])
-
-# optional params: min_freq, max_freq, min_wake, max_wake, blend
-phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.1])
-# run multiple passes for dynamical result
-phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.05])
-phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.05])
-phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.05])
+exponent_method(buffer, 0, 0.25, [3, 4, 1])
 
 # optional params: m1, m2, n1, n2, n3, a, b, blend
-# superformula_method(buffer, 0, 1, [4, 3, 1, 1, 1, 1, 1, 0.5])
-# benefits from a monotnicity pass.
+# superformula_method(buffer, 0, 1, [4, 3, 1, 1, 1, 1, 1, 0.1])
+##### benefits from a monotnicity pass.
+# brute_monotonicity_method(buffer)
+
+# optional params: k, omega, start_value, blend
+# standard_circle_map_method(buffer,0,1,[0.00005, 0.9, 0, 0.5])
+
+# optional params: min_freq, max_freq, min_wake, max_wake, blend
+# phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.1])
+##### run multiple passes for dynamical result
+# phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.1])
+# phase_density_method(buffer, 0, 1, [0.5, 0.2, 3, 0.1, 0.1])
+# phase_density_method(buffer, 0.25, 0.5, [0.5, 0.2, 3, 0.1, 0.1])
+
 # adaptive_monotonicity_method(buffer)
-
-
-brute_monotonicity_method(buffer)
-adaptive_monotonicity_method(buffer)
+# brute_monotonicity_method(buffer)
 
 
 #########################################################################
